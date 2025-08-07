@@ -1,0 +1,23 @@
+  {
+  "name": "GoodMem DevContainer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "curl -s https://get.goodmem.ai | bash -s -- --debug-install && echo 'OPENAI_API_KEY=your_openai_api_key_here\nADD_API_KEY=your_goodmem_api_key_here' > /workspace/.env && echo '.env file created with placeholder values - update with your actual API keys'",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-vscode.vscode-docker"
+      ]
+    }
+  },
+  "mounts": [
+    "source=goodmem-data,target=/var/lib/goodmem,type=volume"
+  ],
+  "remoteUser": "vscode",
+  "runArgs": ["--privileged"]
+}
