@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.title="GoodMem Dev Environment" \
       org.opencontainers.image.description="Minimal SDK setup for developing with GoodMem APIs" \
       org.opencontainers.image.version="1.0.0"
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-lc"]
 
 # System utilities
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -21,23 +21,20 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 # Python SDK + OpenAI (with Python 3.12 PEP 668 override)
 RUN pip install goodmem_client openai requests python-dotenv --break-system-packages
 
-
 # Java 17 (for GoodMem Java client)
-RUN apt-get update && apt-get install -y openjdk-17-jdk && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # .NET 8 SDK
-RUN wget https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+RUN wget -q https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb && \
-    apt-get update && apt-get install -y dotnet-sdk-8.0 && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install -y dotnet-sdk-8.0 && rm -rf /var/lib/apt/lists/*
 ENV DOTNET_ROOT=/usr/share/dotnet
 ENV PATH="$DOTNET_ROOT:$PATH"
 
 # Go 1.22
-RUN wget https://go.dev/dl/go1.22.2.linux-amd64.tar.gz && \
+RUN wget -q https://go.dev/dl/go1.22.2.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz && rm go1.22.2.linux-amd64.tar.gz
 ENV PATH="/usr/local/go/bin:$PATH"
 
@@ -47,12 +44,15 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     npm install -g @pairsystems/goodmem-client && \
     rm -rf /var/lib/apt/lists/*
 
-
-    # Install GoodMem CLI (linux-amd64)
-RUN curl -L https://github.com/PAIR-Systems-Inc/goodmem/releases/latest/download/goodmem-linux-amd64 \
-  -o /usr/local/bin/goodmem && \
-  chmod +x /usr/local/bin/goodmem
-
+# --- Install GoodMem CLI (arch-aware; fail on HTTP errors; verify) ---
+RUN set -euo pipefail; \
+  ARCH="$(uname -m)"; \
+  if [ "$ARCH" = "x86_64" ]; then ASSET=goodmem-linux-amd64; \
+  elif [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then ASSET=goodmem-linux-arm64; \
+  else echo "Unsupported arch: $ARCH" && exit 1; fi; \
+  curl -fL "https://github.com/PAIR-Systems-Inc/goodmem/releases/latest/download/${ASSET}" -o /usr/local/bin/goodmem; \
+  chmod +x /usr/local/bin/goodmem; \
+  /usr/local/bin/goodmem version
 
 # Set up non-root dev user
 RUN useradd -m -s /bin/bash vscode && \
@@ -62,4 +62,4 @@ RUN useradd -m -s /bin/bash vscode && \
     chown -R vscode:vscode /home/vscode/.goodmem
 
 USER vscode
-WORKDIR /workspace
+# Don’t force WORKDIR; devcontainers will bind your repo at /workspaces/<name>
