@@ -48,12 +48,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     rm -rf /var/lib/apt/lists/*
 
 
-    # Install GoodMem CLI (linux-amd64)
-RUN curl -L -o /usr/local/bin/goodmem \
-  "https://github.com/PAIR-Systems-Inc/goodmem/releases/latest/download/goodmem-linux-amd64" && \
-  chmod +x /usr/local/bin/goodmem && \
-  file /usr/local/bin/goodmem && \
-  /usr/local/bin/goodmem version || echo "CLI installed but may need server connection"
+# GoodMem CLI will be installed by the installer script in postCreateCommand
 
 
 # Set up non-root dev user
