@@ -48,6 +48,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     rm -rf /var/lib/apt/lists/*
 
 
+    # Install GoodMem CLI (linux-amd64)
+RUN curl -L https://github.com/PAIR-Systems-Inc/goodmem/releases/latest/download/goodmem-linux-amd64 \
+  -o /usr/local/bin/goodmem && \
+  chmod +x /usr/local/bin/goodmem
+
+
 # Set up non-root dev user
 RUN useradd -m -s /bin/bash vscode && \
     echo "vscode ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/vscode-nopasswd && \
