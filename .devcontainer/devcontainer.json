@@ -1,7 +1,8 @@
 {
   "name": "GoodMem DevContainer",
-  "build": { "dockerfile": "Dockerfile" },
-  {
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
@@ -11,14 +12,15 @@
     "GH_TOKEN": "${localEnv:GH_PAT}"
   },
   "postCreateCommand": [
-      "printf \"%s\" \"$GITHUB_TOKEN\" | gh auth login --hostname github.com --with-token",
-      "curl -s https://get.goodmem.ai | bash -s -- --debug-install",
-      "printf 'OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here\\n' > .env"
-    ]
-  },
+    "printf \"%s\" \"$GITHUB_TOKEN\" | gh auth login --hostname github.com --with-token",
+    "curl -s https://get.goodmem.ai | bash -s -- --debug-install",
+    "printf 'OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here\\n' > .env"
+  ],
   "mounts": [
     "source=goodmem-data,target=/var/lib/goodmem,type=volume"
   ],
   "remoteUser": "vscode",
-  "runArgs": ["--privileged"]
+  "runArgs": [
+    "--privileged"
+  ]
 }
