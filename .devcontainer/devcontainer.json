@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "postCreateCommand": "curl -s https://get.goodmem.ai | bash -s -- --debug-install || echo 'GoodMem install completed with warnings — continuing'; cd /workspaces/* 2>/dev/null || cd /workspace 2>/dev/null || true; echo -e 'OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here' > .env && echo '.env file created with placeholder values'",
+  "postCreateCommand": "goodmem init || echo 'CLI present but init skipped'; printf 'OPENAI_API_KEY=your_openai_api_key_here\nADD_API_KEY=your_goodmem_api_key_here\n' > .env && echo '.env file created with placeholder values'",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
