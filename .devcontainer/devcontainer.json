@@ -7,17 +7,7 @@
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "postCreateCommand": [
-    "sudo apt-get update",
-    "sudo apt-get install -y jq",
-    "curl -sS -H \"Authorization: Bearer $GITHUB_TOKEN\" https://api.github.com/repos/PAIR-Systems-Inc/goodmem/releases/latest -o /tmp/gm_release.json",
-    "ASSET_ID=$(jq -r '.assets[] | select(.name==\"goodmem-linux-amd64.tar.gz\") | .id' /tmp/gm_release.json); curl -fSL -H \"Authorization: Bearer $GITHUB_TOKEN\" -H \"Accept: application/octet-stream\" -o /tmp/goodmem-linux-amd64.tar.gz https://api.github.com/repos/PAIR-Systems-Inc/goodmem/releases/assets/$ASSET_ID",
-    "sudo tar -xzf /tmp/goodmem-linux-amd64.tar.gz -C /usr/local/bin",
-    "sudo chmod +x /usr/local/bin/goodmem",
-    "goodmem --version || true",
-    "printf 'OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here\\n' > .env",
-    "echo '.env file created - GoodMem server should be running on localhost:8080'"
-  ],
+  "postCreateCommand": "bash -lc 'set -e; sudo apt-get update && sudo apt-get install -y jq && curl -sS -H \"Authorization: Bearer $GITHUB_TOKEN\" https://api.github.com/repos/PAIR-Systems-Inc/goodmem/releases/latest -o /tmp/gm_release.json && ASSET_ID=$(jq -r \".assets[] | select(.name==\\\"goodmem-linux-amd64.tar.gz\\\") | .id\" /tmp/gm_release.json) && curl -fSL -H \"Authorization: Bearer $GITHUB_TOKEN\" -H \"Accept: application/octet-stream\" -o /tmp/goodmem-linux-amd64.tar.gz https://api.github.com/repos/PAIR-Systems-Inc/goodmem/releases/assets/$ASSET_ID && sudo tar -xzf /tmp/goodmem-linux-amd64.tar.gz -C /usr/local/bin && sudo chmod +x /usr/local/bin/goodmem && goodmem --version || true && printf \"OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here\\n\" > .env && echo \".env file created - GoodMem server should be running on localhost:8080\"'",
   "mounts": [
     "source=goodmem-data,target=/var/lib/goodmem,type=volume"
   ],
