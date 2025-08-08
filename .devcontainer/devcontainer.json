@@ -1,23 +1,18 @@
 {
   "name": "GoodMem DevContainer",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "postCreateCommand": "goodmem init || echo 'CLI present but init skipped'; printf 'OPENAI_API_KEY=your_openai_api_key_here\nADD_API_KEY=your_goodmem_api_key_here\n' > .env && echo '.env file created with placeholder values'",
+  "build": { "dockerfile": "Dockerfile" },
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
+  "remoteUser": "vscode",
+  "runArgs": ["--privileged"],
   "customizations": {
     "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-vscode.vscode-docker"
-      ]
+      "extensions": ["ms-python.python", "ms-vscode.vscode-docker"]
     }
   },
   "mounts": [
     "source=goodmem-data,target=/var/lib/goodmem,type=volume"
   ],
-  "remoteUser": "vscode",
-  "runArgs": ["--privileged"]
+  "postCreateCommand": "bash -lc 'set -euo pipefail; echo \"[postCreate] Starting GoodMem services (debug mode)...\"; curl -s https://get.goodmem.ai | bash -s -- --debug-install --no-openai-embedder-registration || echo \"[postCreate] Installer had warnings — continuing\"; printf \"OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here\\n\" > .env && echo \".env file created with placeholder values\"; for i in {1..10}; do if goodmem init && echo \"[postCreate] goodmem init: success\"; then break; else echo \"[postCreate] goodmem init: retry $i/10\"; sleep 4; fi; done'"
 }
