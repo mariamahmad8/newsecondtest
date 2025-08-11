@@ -1,12 +1,9 @@
 {
-  "name": "GoodMem DevContainer",
+  "name": "GoodMem Dev Container",
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "containerEnv": {
-    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
-  },
-  "postCreateCommand": "curl -H \"Authorization: token $GITHUB_TOKEN\" -s https://get.goodmem.ai | bash -s -- --debug-install || true; printf 'OPENAI_API_KEY=your_openai_api_key_here\nADD_API_KEY=your_goodmem_api_key_here\n' > .env && echo '.env file created - GoodMem server should be running on localhost:8080'",
+  "postCreateCommand": "echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.bashrc && echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.zshrc",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
