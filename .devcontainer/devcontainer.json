@@ -1,13 +1,9 @@
 {
-  "name": "GoodMem DevContainer",
+  "name": "GoodMem Dev Container",
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "containerEnv": {
-    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
-  },
-  // Assumes final_installer.sh is in the workspace root and is executable
-  "postCreateCommand": "bash -lc './final_installer.sh --debug-install --no-openai-embedder-registration'",
+  "postCreateCommand": "echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.bashrc && echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.zshrc",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
@@ -18,10 +14,5 @@
         "ms-vscode.vscode-docker"
       ]
     }
-  },
-  "mounts": [
-    "source=goodmem-data,target=/var/lib/goodmem,type=volume"
-  ],
-  "remoteUser": "vscode",
-  "runArgs": ["--privileged"]
+  }
 }
