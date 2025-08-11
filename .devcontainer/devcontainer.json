@@ -6,7 +6,8 @@
   "containerEnv": {
     "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
   },
-  "postCreateCommand": "bash -lc 'set -e; printf \"#!/usr/bin/env bash\\nexit 0\\n\" | sudo tee /usr/local/bin/docker >/dev/null; sudo chmod +x /usr/local/bin/docker; curl https://get.goodmem.ai | bash -s -- --debug-install --no-openai-embedder-registration || true; sudo rm -f /usr/local/bin/docker; cd ${containerWorkspaceFolder}; printf \"OPENAI_API_KEY=your_openai_api_key_here\\nADD_API_KEY=your_goodmem_api_key_here\\n\" > .env && echo \".env file created - installer ran without pulling images\"'",
+  // Assumes final_installer.sh is in the workspace root and is executable
+  "postCreateCommand": "bash -lc './final_installer.sh --debug-install --no-openai-embedder-registration'",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
