@@ -31,16 +31,13 @@ This is the fastest way to get started. Use this if you're beginning a new proje
 **Simply click the button below:**
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo=pair-systems-inc/goodmem-template-repository)
-<!-- 
-    IMPORTANT: For the button above to work, you must create a public GitHub repository
-    at 'github.com/pair-systems-inc/goodmem-template-repository' and make it a "Template Repository" 
-    in its settings. It should contain your .devcontainer/devcontainer.json file.
--->
 
 **What this does:**
 * Creates a new, private GitHub repository for you.
 * Launches a GitHub Codespace with the Goodmem Devcontainer fully configured and ready to go.
-* You can start creating files and writing code immediately.
+* After the devcontainer fully runs and installs all of the SDK's, correct language versions, you the need to run one more command
+* in your terminal, type: install-goodmem.
+* This will install goodmem for you and it will guide you through the installation. 
 
 #### Option 2: Add to an Existing Project
 
