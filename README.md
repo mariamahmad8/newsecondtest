@@ -24,20 +24,34 @@ The **Goodmem Devcontainer** is a complete, zero-configuration development envir
 
 Choose the path that best fits your needs.
 
-#### Option 1: Start a New Project from Scratch (Recommended)
+## 🚀 Quick Start with GitHub Codespaces
 
-This is the fastest way to get started. Use this if you're beginning a new project and want a clean, pre-configured workspace in the cloud.
-
-**Simply click the button below:**
+### 1. **Launch Your Codespace**
+Simply click the button below:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo=pair-systems-inc/goodmem-template-repository)
 
-**What this does:**
-* Creates a new, private GitHub repository for you.
-* Launches a GitHub Codespace with the Goodmem Devcontainer fully configured and ready to go.
-* After the devcontainer fully runs and installs all of the SDK's, correct language versions, you the need to run one more command
-* in your terminal, type: install-goodmem.
-* This will install goodmem for you and it will guide you through the installation. 
+---
+
+### 2. **What Happens When You Click**
+By clicking the button above, GitHub will:
+
+1. **Create a new, private repository** in your GitHub account.
+2. **Launch a GitHub Codespace** preloaded with the **GoodMem Devcontainer**.
+3. Automatically install:
+   - All required SDKs
+   - Correct language versions
+   - All developer tools for GoodMem
+
+---
+
+### 3. **Run the GoodMem Installer**
+Once the Codespace is up and the Devcontainer has finished installing:
+
+1. Open the **terminal** in your Codespace.
+2. Type:
+   ```bash
+   install-goodmem
 
 #### Option 2: Add to an Existing Project
 
