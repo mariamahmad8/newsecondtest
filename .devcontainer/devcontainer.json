@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "postCreateCommand": "echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.bashrc && echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.zshrc",
+  "postCreateCommand": "bash ./.devcontainer/final_installer.sh --debug-install --no-openai-embedder-registration && echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.bashrc && echo \"alias install-goodmem='bash ./.devcontainer/final_installer.sh'\" >> ~/.zshrc",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
@@ -21,5 +21,3 @@
   "remoteUser": "vscode",
   "runArgs": ["--privileged"]
 }
-
-
